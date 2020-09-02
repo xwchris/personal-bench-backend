@@ -165,6 +165,8 @@ const typeDefs = gql`
 `;
 
 const db = new DB()
+// 目前只展示2020的数据
+const YEAR = '2020'
 
 const queryFromGithub = ({ method = 'GET', path = '', data = {} }) => {
   return db.queryGithubs().then(result => new GithubClient({
@@ -243,11 +245,10 @@ const resolvers = {
         url: ``
       })))
 
-      // 目前只展示2019的数据
       const sortDecrease = (a, b) => +b - +a
-      const result = Object.keys(data['2019']).sort(sortDecrease).map(monthKey => ({
+      const result = Object.keys(data[YEAR]).sort(sortDecrease).map(monthKey => ({
         month: monthKey,
-        data: Object.keys(data['2019'][monthKey]).sort(sortDecrease).map(dateKey => ({ date: dateKey, data: data['2019'][monthKey][dateKey] }))
+        data: Object.keys(data[YEAR][monthKey]).sort(sortDecrease).map(dateKey => ({ date: dateKey, data: data[YEAR][monthKey][dateKey] }))
       }))
 
       return result;
